@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Estudiantes SinDi — Wireframe</title>
+
+ <!-- estilos usados para todo -->
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#06b6d4; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
+      --radius:12px; --gap:16px; --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:linear-gradient(180deg,#071024 0%, #081427 60%); color:#e6f0f2; -webkit-font-smoothing:antialiased}
+    .container{max-width:var(--maxw); margin:30px auto; padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:700}
+    nav a{color:var(--muted);text-decoration:none;margin-left:14px;font-weight:600}
+
+    main{display:grid;grid-template-columns:1fr 360px;gap:20px}
+
+    /* columna de la izquierda*/
+    .left{display:flex;flex-direction:column;gap:16px}
+
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .card{background:var(--card); padding:14px; border-radius:var(--radius); box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+    .card h3{margin:0;font-size:0.9rem;color:var(--muted)}
+    .card p{margin-top:8px;font-size:1.4rem;font-weight:700}
+    .progress{height:8px;background:var(--glass);border-radius:999px;overflow:hidden;margin-top:10px}
+    .progress > i{display:block;height:100%;background:var(--accent);width:40%}
+
+    /* transacciones y presupuesto */
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:16px; border-radius:var(--radius)}
+    .panel h2{margin:0 0 12px 0}
+    .budget-list{display:flex;flex-direction:column;gap:10px}
+    .budget-item{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .budget-item .meta{display:flex;align-items:center;gap:10px}
+    .badge{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:0.85rem}
+
+    table{width:100%;border-collapse:collapse}
+    table thead{color:var(--muted);font-size:0.85rem}
+    table td, table th{padding:10px;border-bottom:1px solid rgba(255,255,255,0.03)}
+
+    /* columna derecha*/
+    .right{display:flex;flex-direction:column;gap:16px}
+    .savings-list{display:flex;flex-direction:column;gap:10px}
+
+    /* acciones flotantes*/
+    .fab{position:fixed;right:24px;bottom:24px;background:var(--accent);color:#042028;border:none;padding:14px 16px;border-radius:12px;font-weight:700;box-shadow:0 10px 30px rgba(6,182,212,0.15);cursor:pointer}
+
+    /* recuadr de transaccines */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center}
+    .modal{width:420px;background:#071729;padding:18px;border-radius:12px}
+    .row{display:flex;gap:10px}
+    input, select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    button.primary{background:var(--accent);border:none;padding:10px 12px;border-radius:8px;font-weight:700;cursor:pointer}
+
+    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:0.85rem}
+
+    /* respuestas */
+    @media (max-width:980px){main{grid-template-columns:1fr;}.cards{grid-template-columns:repeat(2,1fr)} .right{order:2}}
+    @media (max-width:560px){.cards{grid-template-columns:1fr} .modal{width:92%}}
+  </style>
+
+
+
+ <!--cabecera del html -->
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+         <div class="logo">
+               <img src="C:\Users\Usuario 1\Desktop\Wireframe-Estudiantes SinDi\logo.png" alt="Logo Estudiantes SinDi" style="width:100%; height:100%; object-fit:contain;">
+         </div>
+        <div>
+          <div style="font-weight:800;font-size:1.1rem">Estudiantes SinDi</div>
+          <div style="font-size:0.8rem;color:var(--muted)">Organiza tu dinero | fácil y rápido</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#">Inicio</a>
+        <a href="#presupuesto">Presupuesto</a>
+        <a href="#gastos">Gastos</a>
+        <a href="#ahorros">Ahorros</a>
+      </nav>
+    </header>
+
+
+
+
+
+
+ <!-- apartado de saldo, gastos y ahorro -->
+    <main>
+      <section class="left">
+        <div class="cards">
+          <div class="card">
+            <h3>Saldo disponible</h3>
+            <p>$1,240.50</p>
+            <div class="progress"><i style="width:62%"></i></div>
+          </div>
+          <div class="card">
+            <h3>Gastos este mes</h3>
+            <p>$520.00</p>
+            <div class="progress"><i style="width:45%"></i></div>
+          </div>
+          <div class="card">
+            <h3>Ahorros</h3>
+            <p>$300.00</p>
+            <div class="progress"><i style="width:30%"></i></div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!--apartado de presupuestos por categoria  -->
+        <div class="panel" id="presupuesto">
+          <h2>Presupuestos por categoría</h2>
+          <div class="budget-list">
+            <div class="budget-item">
+              <div class="meta"><div class="badge">🍔</div><div>
+                <div style="font-weight:700">Comida</div>
+                <div style="font-size:0.85rem;color:var(--muted)">$150 / $200</div>
+              </div></div>
+              <div style="width:140px">
+                <div class="progress"><i style="width:75%"></i></div>
+              </div>
+            </div>
+
+            <div class="budget-item">
+              <div class="meta"><div class="badge">🚇</div><div>
+                <div style="font-weight:700">Transporte</div>
+                <div style="font-size:0.85rem;color:var(--muted)">$40 / $60</div>
+              </div></div>
+              <div style="width:140px">
+                <div class="progress"><i style="width:66%"></i></div>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:flex-end;margin-top:8px">
+              <button class="primary" onclick="openModal()">+ Añadir gasto/ingreso</button>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- donde se guardarian las trancciones -->
+        <div class="panel" id="gastos">
+          <h2>Transacciones recientes</h2>
+          <table>
+            <thead><tr><th>Fecha</th><th>Descripción</th><th>Categoría</th><th style="text-align:right">Monto</th></tr></thead>
+            <tbody>
+              <tr><td>22/09/2025</td><td>Compra torta milanesa</td><td>Comida</td><td style="text-align:right">-$35.00</td></tr>
+              <tr><td>20/09/2025</td><td>Pago Poliza</td><td>Ingreso</td><td style="text-align:right">-$378.00</td></tr>
+              <tr><td>18/09/2025</td><td>Transporte</td><td>Transporte</td><td style="text-align:right">-$8.50</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- las metas -->
+
+      <aside class="right">
+        <div class="panel" id="ahorros">
+          <h2>Metas de ahorro</h2>
+          <div class="savings-list">
+            <div class="card" style="padding:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div style="font-weight:800">Laptop nueva</div>
+                  <div style="font-size:0.85rem;color:var(--muted)">$9,000 — Plazo: 6 meses</div>
+                </div>
+                <div style="width:120px"><div class="progress"><i style="width:25%"></i></div></div>
+              </div>
+            </div>
+            <div class="card" style="padding:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div style="font-weight:800">Cel Nuevo</div>
+                  <div style="font-size:0.85rem;color:var(--muted)">$7,500 — Plazo: 19 meses</div>
+                </div>
+                <div style="width:120px"><div class="progress"><i style="width:10%"></i></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+         <!-- donde irian los reportes de gastos -->
+        <div class="panel">
+          <h2>Reportes rápidos</h2>
+          <p style="color:var(--muted);font-size:0.9rem;margin-bottom:8px">Distribución de gastos</p>
+          <div style="height:140px;background:rgba(255,255,255,0.02);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--muted)">[Gráfico placeholder]</div>
+        </div>
+
+      </aside>
+    </main>
+
+
+
+     <!-- El pide de pagina -->
+    <footer>© 2025 Estudiantes SinDi — Wireframe • Hecho para estudiantes</footer>
+  </div>
+
+
+
+
+
+
+  <!-- Ventana Despegable donde se añaden las transacciones -->
+    <!-- idea de back(Aun no hay nada funcional) -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <h3 id="modal-title">Añadir transacción</h3>
+      <div style="margin-top:10px">
+        <label class="row"><input id="monto" placeholder="Monto (ej. 12.50)"/></label>
+        <label class="row" style="margin-top:8px"><input id="desc" placeholder="Descripción"/></label>
+        <label class="row" style="margin-top:8px"><select id="cat"><option>Comida</option><option>Transporte</option><option>Ocio</option><option>Ingreso</option></select></label>
+        <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end">
+          <button onclick="closeModal()">Cancelar</button>
+          <button class="primary" onclick="saveTx()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="fab" onclick="openModal()">+ Nuevo</button>
+
+  <script>
+    const modal = document.getElementById('modal');
+    function openModal(){ modal.style.display='flex'; document.getElementById('monto').focus(); }
+    function closeModal(){ modal.style.display='none'; }
+    function saveTx(){
+      // Placeholder: aquí iría la lógica para guardar la transacción (API o localStorage)
+      alert('Transacción guardada (ejemplo)');
+      closeModal();
+    }
+    // Cerrar modal con ESC
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+  </script>
+</body>
+</html>
