@@ -1,286 +1,1862 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Estudiantes SinDi — Wireframe</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudiantes SinDi - Controla tus finanzas mientras estudias</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. VARIABLES Y ESTILOS BASE --- */
+        :root{
+            --bg: #0f1724; 
+            --card: #0b1220; 
+            --accent: #06b6d4; 
+            --accent-hover: #0891b2;
+            --text: #e6f0f2;
+            --muted: #94a3b8; 
+            --glass: rgba(255,255,255,0.03);
+            --radius: 12px; 
+            --maxw: 1100px;
+            --success: #10b981;
+        }
 
- <!-- estilos usados para todo -->
-  <style>
-    :root{
-      --bg:#0f1724; --card:#0b1220; --accent:#06b6d4; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
-      --radius:12px; --gap:16px; --maxw:1100px;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(180deg, #071024 0%, #081427 100%);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* --- 2. NAVEGACIÓN MEJORADA --- */
+        header {
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 36, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid var(--glass);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 15px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover { 
+            color: var(--accent); 
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* --- 3. BOTONES (CTA) MEJORADOS --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #042028;
+            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.35);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--glass);
+            background: rgba(255,255,255,0.05);
+            color: var(--text);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            background: rgba(6, 182, 212, 0.05);
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+        }
+
+        /* --- 4. SECCIÓN HERO MEJORADA --- */
+        .hero {
+            padding: 100px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0) 70%);
+            top: -200px;
+            right: -200px;
+            z-index: -1;
+        }
+
+        .hero-content h1 {
+            font-size: 3.2rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, var(--muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--muted);
+            margin-bottom: 30px;
+            max-width: 480px;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .badge i {
+            color: var(--success);
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        /* Simulación de la interfaz en el Hero */
+        .mockup-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--glass);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transform: rotate(-2deg);
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        .mockup-card::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: -10px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 16px;
+            z-index: -1;
+            filter: blur(10px);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(-2deg); }
+            50% { transform: translateY(-15px) rotate(-1deg); }
+            100% { transform: translateY(0px) rotate(-2deg); }
+        }
+
+        /* --- 5. SECCIÓN CONFIANZA --- */
+        .trust-section {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--glass);
+            border-bottom: 1px solid var(--glass);
+        }
+
+        .trust-section p {
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .trust-logos {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .trust-item i {
+            color: var(--accent);
+        }
+
+        /* --- 6. CARACTERÍSTICAS MEJORADAS --- */
+        .features {
+            background: rgba(255,255,255,0.01);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 { 
+            font-size: 2.2rem; 
+            margin-bottom: 10px; 
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .section-title p { 
+            color: var(--muted); 
+            max-width: 600px;
+            margin: 20px auto 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--card);
+            padding: 30px;
+            border-radius: var(--radius);
+            border: 1px solid var(--glass);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover .icon-box {
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        /* --- 7. SECCIÓN CÓMO FUNCIONA --- */
+        .how-it-works {
+            position: relative;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            position: relative;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--glass);
+            z-index: 1;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            padding: 0 15px;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--card);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .step h3 {
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: var(--muted);
+        }
+
+        /* --- 8. SECCIÓN TESTIMONIOS --- */
+        .testimonials {
+            background: rgba(255,255,255,0.01);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--card);
+            padding: 30px;
+            border-radius: var(--radius);
+            border: 1px solid var(--glass);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 4rem;
+            color: rgba(6, 182, 212, 0.2);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-content {
+            margin-bottom: 20px;
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- 9. SECCIÓN PREGUNTAS FRECUENTES --- */
+        .faq-section .section-title {
+            margin-bottom: 30px;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--card);
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+            border: 1px solid var(--glass);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .faq-question h3 {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .faq-icon {
+            color: var(--accent);
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--muted);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 20px 20px;
+            max-height: 500px;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* --- 10. SECCIÓN CTA FINAL --- */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, transparent 100%);
+            border-radius: var(--radius);
+            padding: 60px 40px;
+            margin: 40px 0;
+            border: 1px solid var(--glass);
+        }
+
+        .cta-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        /* --- 11. FORMULARIO DE CONTACTO --- */
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--muted);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+        }
+
+        /* --- 12. FOOTER MEJORADO --- */
+        footer {
+            border-top: 1px solid var(--glass);
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo-box {
+            margin-bottom: 15px;
+        }
+
+        .footer-brand p {
+            color: var(--muted);
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            color: var(--muted);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            color: #042028;
+            transform: translateY(-3px);
+        }
+
+        .footer-links h3 {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--glass);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .steps {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .steps::before {
+                display: none;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero { 
+                grid-template-columns: 1fr; 
+                text-align: center; 
+                padding: 80px 0;
+            }
+            
+            .hero-content p { 
+                margin: 0 auto 30px; 
+            }
+            
+            .nav-links { 
+                display: none; 
+            }
+            
+            .hero-badges {
+                justify-content: center;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .btn-large {
+                padding: 14px 24px;
+                font-size: 1rem;
+            }
+            
+            .trust-logos {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        /* --- SECCIÓN DE VIDEO MEJORADA --- */
+.video-section {
+    text-align: center;
+    background: rgba(255,255,255,0.01);
+}
+
+.video-container {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Relación 16:9 */
+    height: 0;
+    display: none;
+}
+
+.video-wrapper.active {
+    display: block;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+}
+
+.video-placeholder {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    background: linear-gradient(135deg, var(--card) 0%, #0d1422 100%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--glass);
+}
+
+.video-placeholder.hidden {
+    display: none;
+}
+
+.placeholder-content {
+    text-align: center;
+    z-index: 2;
+    position: relative;
+}
+
+.play-btn {
+    font-size: 4rem;
+    color: var(--accent);
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.video-placeholder:hover .play-btn {
+    transform: scale(1.1);
+    color: var(--accent-hover);
+}
+
+.placeholder-content h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.placeholder-content p {
+    color: var(--muted);
+}
+
+.video-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Efecto de fondo animado para el placeholder */
+.video-placeholder::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+    animation: backgroundShift 10s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+/* Estilos para el logo personalizado */
+.logo-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: transparent; /* Quitamos el gradiente de fondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Para que la imagen no se salga del contenedor */
+}
+
+.logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Mantiene la proporción de la imagen */
+    border-radius: 6px; /* Opcional: esquinas ligeramente redondeadas */
+}
+
+/* Versión más grande para el footer si es necesario */
+.footer-brand .logo-box {
+    width: 50px;
+    height: 50px;
+}
+
+/* Si quieres mantener el gradiente de fondo detrás del logo */
+.logo-box.with-bg {
+    background: linear-gradient(135deg, var(--accent), #8b5cf6);
+}
+
+.logo-box.with-bg .logo-img {
+    padding: 5px; /* Espacio alrededor del logo */
+}
+/* Estilos para las imágenes en las tarjetas de características */
+.feature-image {
+    margin-top: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--glass);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-image {
+    transform: translateY(-5px);
+}
+
+.app-screenshot {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover .app-screenshot {
+    transform: scale(1.05);
+}
+
+.image-caption {
+    padding: 10px;
+    background: rgba(255,255,255,0.03);
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+    border-top: 1px solid var(--glass);
+}
+
+/* Galería de screenshots */
+.screenshots-gallery {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--glass);
+}
+
+.screenshots-gallery .section-title h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.gallery-item {
+    background: var(--card);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--glass);
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.gallery-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.gallery-caption {
+    padding: 15px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* Efectos de hover mejorados */
+.feature-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover::after {
+    transform: scaleX(1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .app-screenshot {
+        height: 150px;
     }
-    *{box-sizing:border-box}
-    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:linear-gradient(180deg,#071024 0%, #081427 60%); color:#e6f0f2; -webkit-font-smoothing:antialiased}
-    .container{max-width:var(--maxw); margin:30px auto; padding:24px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:700}
-    nav a{color:var(--muted);text-decoration:none;margin-left:14px;font-weight:600}
+    
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .gallery-image {
+        height: 180px;
+    }
+}
+/* Grid principal de características */
+.features-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
 
-    main{display:grid;grid-template-columns:1fr 360px;gap:20px}
+/* Layout de características con imágenes */
+.feature-with-image {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
 
-    /* columna de la izquierda*/
-    .left{display:flex;flex-direction:column;gap:16px}
+.feature-with-image.reverse {
+    direction: rtl;
+}
 
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .card{background:var(--card); padding:14px; border-radius:var(--radius); box-shadow:0 6px 20px rgba(2,6,23,0.6)}
-    .card h3{margin:0;font-size:0.9rem;color:var(--muted)}
-    .card p{margin-top:8px;font-size:1.4rem;font-weight:700}
-    .progress{height:8px;background:var(--glass);border-radius:999px;overflow:hidden;margin-top:10px}
-    .progress > i{display:block;height:100%;background:var(--accent);width:40%}
+.feature-with-image.reverse > * {
+    direction: ltr;
+}
 
-    /* transacciones y presupuesto */
-    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:16px; border-radius:var(--radius)}
-    .panel h2{margin:0 0 12px 0}
-    .budget-list{display:flex;flex-direction:column;gap:10px}
-    .budget-item{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .budget-item .meta{display:flex;align-items:center;gap:10px}
-    .badge{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:0.85rem}
+.feature-content {
+    padding: 20px;
+}
 
-    table{width:100%;border-collapse:collapse}
-    table thead{color:var(--muted);font-size:0.85rem}
-    table td, table th{padding:10px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.feature-content .icon-box {
+    margin-bottom: 25px;
+}
 
-    /* columna derecha*/
-    .right{display:flex;flex-direction:column;gap:16px}
-    .savings-list{display:flex;flex-direction:column;gap:10px}
+.feature-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: var(--text);
+}
 
-    /* acciones flotantes*/
-    .fab{position:fixed;right:24px;bottom:24px;background:var(--accent);color:#042028;border:none;padding:14px 16px;border-radius:12px;font-weight:700;box-shadow:0 10px 30px rgba(6,182,212,0.15);cursor:pointer}
+.feature-content p {
+    color: var(--muted);
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
 
-    /* recuadr de transaccines */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center}
-    .modal{width:420px;background:#071729;padding:18px;border-radius:12px}
-    .row{display:flex;gap:10px}
-    input, select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-    button.primary{background:var(--accent);border:none;padding:10px 12px;border-radius:8px;font-weight:700;cursor:pointer}
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
 
-    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:0.85rem}
+.feature-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    color: var(--muted);
+}
 
-    /* respuestas */
-    @media (max-width:980px){main{grid-template-columns:1fr;}.cards{grid-template-columns:repeat(2,1fr)} .right{order:2}}
-    @media (max-width:560px){.cards{grid-template-columns:1fr} .modal{width:92%}}
-  </style>
+.feature-list i {
+    color: var(--success);
+    font-size: 0.9rem;
+}
 
+/* Contenedor de imágenes mejorado */
+.feature-visual {
+    position: relative;
+}
 
+.image-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+    transition: all 0.5s ease;
+}
 
- <!--cabecera del html -->
+.feature-with-image.reverse .image-container {
+    transform: perspective(1000px) rotateY(5deg) rotateX(5deg);
+}
+
+.image-container:hover {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.02);
+}
+
+.feature-main-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.image-container:hover .feature-main-image {
+    transform: scale(1.05);
+}
+
+.image-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid rgba(6, 182, 212, 0.3);
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+/* Showcase de la app */
+.app-showcase {
+    margin-top: 100px;
+    padding-top: 60px;
+    border-top: 1px solid var(--glass);
+}
+
+.showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.showcase-item {
+    text-align: center;
+    padding: 30px 20px;
+    background: var(--card);
+    border-radius: 20px;
+    border: 1px solid var(--glass);
+    transition: all 0.3s ease;
+}
+
+.showcase-item:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* Mockup de teléfono */
+.phone-mockup {
+    position: relative;
+    width: 220px;
+    height: 450px;
+    margin: 0 auto 25px;
+    background: #1a1f2e;
+    border-radius: 30px;
+    padding: 10px;
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.3),
+        inset 0 0 0 2px rgba(255,255,255,0.05);
+}
+
+.phone-frame {
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg);
+}
+
+.screen-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.showcase-info h4 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.showcase-info p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* Efectos de gradiente y profundidad */
+.feature-visual::before {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity: 0.1;
+    top: -50px;
+    right: -50px;
+    z-index: -1;
+    filter: blur(40px);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .feature-with-image {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .feature-with-image.reverse {
+        direction: ltr;
+    }
+    
+    .image-container {
+        transform: none !important;
+    }
+    
+    .feature-main-image {
+        height: 300px;
+    }
+    
+    .phone-mockup {
+        width: 180px;
+        height: 380px;
+    }
+}
+
+@media (max-width: 768px) {
+    .showcase-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .features-grid {
+        gap: 60px;
+    }
+}
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="brand">
-         <div class="logo">
-               <img src="Logo.png" alt="Logo Estudiantes SinDi" style="width:100%; height:100%; object-fit:contain;">
-         </div>
-        <div>
-          <div style="font-weight:800;font-size:1.1rem">Estudiantes SinDi</div>
-          <div style="font-size:0.8rem;color:var(--muted)">Organiza tu dinero | fácil y rápido</div>
+
+    <header id="header">
+        <div class="container">
+            <nav>
+                <div class="brand">
+                <div class="logo-box with-bg">
+
+                    <img src="Logo.png" alt="Logo Estudiantes SinDi" class="logo-img">
+                </div>
+                    Estudiantes SinDi
+                </div>
+                <div class="nav-links">
+                    <a href="#beneficios">Beneficios</a>
+                    <a href="#funcionamiento">Cómo funciona</a>
+                    <a href="#testimonios">Testimonios</a>
+                    <a href="#faq">Preguntas</a>
+                    <a href="#contacto">Contacto</a>
+                </div>
+                <a href="#contacto" class="btn btn-primary">Descargar App</a>
+            </nav>
         </div>
-      </div>
-      <nav>
-        <a href="#">Inicio</a>
-        <a href="#presupuesto">Presupuesto</a>
-        <a href="#gastos">Gastos</a>
-        <a href="#ahorros">Ahorros</a>
-      </nav>
     </header>
 
-
-
-
-
-
- <!-- apartado de saldo, gastos y ahorro -->
-    <main>
-      <section class="left">
-        <div class="cards">
-          <div class="card">
-            <h3>Saldo disponible</h3>
-            <p>$1,240.50</p>
-            <div class="progress"><i style="width:62%"></i></div>
-          </div>
-          <div class="card">
-            <h3>Gastos este mes</h3>
-            <p>$520.00</p>
-            <div class="progress"><i style="width:45%"></i></div>
-          </div>
-          <div class="card">
-            <h3>Ahorros</h3>
-            <p>$300.00</p>
-            <div class="progress"><i style="width:30%"></i></div>
-          </div>
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- <!--apartado de presupuestos por categoria  -->
-        <div class="panel" id="presupuesto">
-          <h2>Presupuestos por categoría</h2>
-          <div class="budget-list">
-            <div class="budget-item">
-              <div class="meta"><div class="badge">🍔</div><div>
-                <div style="font-weight:700">Comida</div>
-                <div style="font-size:0.85rem;color:var(--muted)">$150 / $200</div>
-              </div></div>
-              <div style="width:140px">
-                <div class="progress"><i style="width:75%"></i></div>
-              </div>
+    <section class="hero container">
+        <div class="hero-content">
+            <h1>Domina tus finanzas mientras estudias</h1>
+            <p>Deja de sufrir a fin de mes. La herramienta todo-en-uno para gestionar gastos, dividir cuentas con roomies y aprender educación financiera.</p>
+            <div>
+                <a href="#contacto" class="btn btn-primary btn-large">Empezar Gratis</a>
+                <a href="#funcionamiento" class="btn btn-outline btn-large"><i class="fas fa-play"></i> Ver demo</a>
             </div>
-
-            <div class="budget-item">
-              <div class="meta"><div class="badge">🚇</div><div>
-                <div style="font-weight:700">Transporte</div>
-                <div style="font-size:0.85rem;color:var(--muted)">$40 / $60</div>
-              </div></div>
-              <div style="width:140px">
-                <div class="progress"><i style="width:66%"></i></div>
-              </div>
-            </div>
-
-            <div style="display:flex;justify-content:flex-end;margin-top:8px">
-              <button class="primary" onclick="openModal()">+ Añadir gasto/ingreso</button>
-            </div>
-          </div>
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
- <!-- donde se guardarian las trancciones -->
-        <div class="panel" id="gastos">
-          <h2>Transacciones recientes</h2>
-          <table>
-            <thead><tr><th>Fecha</th><th>Descripción</th><th>Categoría</th><th style="text-align:right">Monto</th></tr></thead>
-            <tbody>
-              <tr><td>22/09/2025</td><td>Compra torta milanesa</td><td>Comida</td><td style="text-align:right">-$35.00</td></tr>
-              <tr><td>20/09/2025</td><td>Pago Poliza</td><td>Ingreso</td><td style="text-align:right">-$378.00</td></tr>
-              <tr><td>18/09/2025</td><td>Transporte</td><td>Transporte</td><td style="text-align:right">-$8.50</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- <!-- las metas -->
-
-      <aside class="right">
-        <div class="panel" id="ahorros">
-          <h2>Metas de ahorro</h2>
-          <div class="savings-list">
-            <div class="card" style="padding:10px">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <div>
-                  <div style="font-weight:800">Laptop nueva</div>
-                  <div style="font-size:0.85rem;color:var(--muted)">$9,000 — Plazo: 6 meses</div>
+            
+            <div class="hero-badges">
+                <div class="badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Datos 100% seguros</span>
                 </div>
-                <div style="width:120px"><div class="progress"><i style="width:25%"></i></div></div>
-              </div>
-            </div>
-            <div class="card" style="padding:10px">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <div>
-                  <div style="font-weight:800">Cel Nuevo</div>
-                  <div style="font-size:0.85rem;color:var(--muted)">$7,500 — Plazo: 19 meses</div>
+                <div class="badge">
+                    <i class="fas fa-users"></i>
+                    <span>De estudiantes para estudiantes</span>
                 </div>
-                <div style="width:120px"><div class="progress"><i style="width:10%"></i></div></div>
-              </div>
+                <div class="badge">
+                    <i class="fas fa-star"></i>
+                    <span>4.8/5 en valoraciones previas al lanzamiento</span>
+                </div>
             </div>
-          </div>
         </div>
-
-
-
-
-
-         <!-- donde irian los reportes de gastos -->
-        <div class="panel">
-          <h2>Reportes rápidos</h2>
-          <p style="color:var(--muted);font-size:0.9rem;margin-bottom:8px">Distribución de gastos</p>
-          <div style="height:140px;background:rgba(255,255,255,0.02);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--muted)">[Gráfico placeholder]</div>
+        
+        <div class="hero-visual">
+            <div class="mockup-card">
+                <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                    <div style="font-weight:bold; color:var(--muted)">Saldo Disponible</div>
+                    <i class="fas fa-ellipsis-h" style="color:var(--muted)"></i>
+                </div>
+                <div style="font-size:2.5rem; font-weight:800; margin-bottom:10px;">$1,240.50</div>
+                <div style="height:6px; background:rgba(255,255,255,0.1); border-radius:10px; overflow:hidden;">
+                    <div style="width:62%; height:100%; background:var(--accent);"></div>
+                </div>
+                <div style="margin-top:20px; display:flex; gap:10px;">
+                    <div style="flex:1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; text-align:center;">
+                        <i class="fas fa-hamburger" style="color:#f87171"></i><br><span style="font-size:0.8rem; color:var(--muted)">-$35.00</span>
+                    </div>
+                    <div style="flex:1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; text-align:center;">
+                        <i class="fas fa-bus" style="color:#fbbf24"></i><br><span style="font-size:0.8rem; color:var(--muted)">-$8.50</span>
+                    </div>
+                    <div style="flex:1; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; text-align:center;">
+                        <i class="fas fa-piggy-bank" style="color:#34d399"></i><br><span style="font-size:0.8rem; color:var(--muted)">+$300</span>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-      </aside>
-    </main>
-
-
-
-     <!-- El pide de pagina -->
-    <footer>© 2025 Estudiantes SinDi — Wireframe • Hecho para estudiantes</footer>
-  </div>
-
-
-
-
-
-
-  <!-- Ventana Despegable donde se añaden las transacciones -->
-    <!-- idea de back(Aun no hay nada funcional) -->
-  <div class="modal-backdrop" id="modal">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <h3 id="modal-title">Añadir transacción</h3>
-      <div style="margin-top:10px">
-        <label class="row"><input id="monto" placeholder="Monto (ej. 12.50)"/></label>
-        <label class="row" style="margin-top:8px"><input id="desc" placeholder="Descripción"/></label>
-        <label class="row" style="margin-top:8px"><select id="cat"><option>Comida</option><option>Transporte</option><option>Ocio</option><option>Ingreso</option></select></label>
-        <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end">
-          <button onclick="closeModal()">Cancelar</button>
-          <button class="primary" onclick="saveTx()">Guardar</button>
+    <div class="trust-section">
+        <div class="container">
+            <p>Confían en nosotros estudiantes de:</p>
+            <div class="trust-logos">
+                <div class="trust-item">
+                    <i class="fas fa-university"></i>
+                    <span>BUAP</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-university"></i>
+                    <span>IPN</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-university"></i>
+                    <span>UAM</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-university"></i>
+                    <span>UDG</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-university"></i>
+                    <span>UNAM</span>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <button class="fab" onclick="openModal()">+ Nuevo</button>
+<section id="beneficios" class="features">
+    <div class="container">
+        <div class="section-title">
+            <h2>Todo lo que necesitas en una sola app</h2>
+            <p>Diseñado por estudiantes, para estudiantes. Simplifica tu vida financiera con herramientas poderosas pero fáciles de usar.</p>
+        </div>
 
-  <script>
-    const modal = document.getElementById('modal');
-    function openModal(){ modal.style.display='flex'; document.getElementById('monto').focus(); }
-    function closeModal(){ modal.style.display='none'; }
-    function saveTx(){
-      // Placeholder: aquí iría la lógica para guardar la transacción (API o localStorage)
-      alert('Transacción guardada (ejemplo)');
-      closeModal();
+        <div class="features-grid">
+            <!-- Característica 1 con imagen destacada -->
+            <div class="feature-with-image">
+                <div class="feature-content">
+                    <div class="icon-box"><i class="fas fa-chart-pie"></i></div>
+                    <h3>Control de Presupuesto Inteligente</h3>
+                    <p>Establece límites para comida, transporte y ocio. Recibe alertas antes de quedarte en ceros y toma el control de tus gastos mensuales con nuestra interfaz intuitiva.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Alertas automáticas de presupuesto</li>
+                        <li><i class="fas fa-check"></i> Categorización inteligente</li>
+                        <li><i class="fas fa-check"></i> Reportes semanales y mensuales</li>
+                    </ul>
+                </div>
+                <div class="feature-visual">
+                    <div class="image-container">
+                        <img src="dashboard.jpg" alt="Dashboard de control presupuestal" class="feature-main-image">
+                        <div class="image-frame"></div>
+                    </div>
+                </div>
+            </div>
+      <!-- Característica 2 con imagen destacada -->
+            <div class="feature-with-image reverse">
+                <div class="feature-content">
+                    <div class="icon-box"><i class="fas fa-users"></i></div>
+                    <h3>División de Gastos con Roomies</h3>
+                    <p>¿Vives con compañeros? Divide la renta, internet y servicios automáticamente sin peleas. Calcula quién debe a quién en segundos y envía recordatorios automáticos.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Cálculos automáticos</li>
+                        <li><i class="fas fa-check"></i> Recordatorios de pago</li>
+                        <li><i class="fas fa-check"></i> Historial de gastos compartidos</li>
+                    </ul>
+                </div>
+                <div class="feature-visual">
+                    <div class="image-container">
+                        <img src="division-gastos.jpg" alt="División de gastos con roomies" class="feature-main-image">
+                        <div class="image-frame"></div>
+                    </div>
+                </div>
+            </div>
+
+ <div class="feature-with-image">
+                <div class="feature-content">
+                    <div class="icon-box"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Educación Financiera Personalizada</h3>
+                    <p>Aprende a ahorrar para tus metas universitarias con micro-lecciones interactivas y retos de ahorro. Domina conceptos financieros sin complicaciones.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Lecciones breves y prácticas</li>
+                        <li><i class="fas fa-check"></i> Retos de ahorro semanales</li>
+                        <li><i class="fas fa-check"></i> Consejos personalizados</li>
+                    </ul>
+                </div>
+                <div class="feature-visual">
+                    <div class="image-container">
+                        <img src="presupuestos.jpg" alt="Módulo de educación financiera" class="feature-main-image">
+                        <div class="image-frame"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Galería adicional de screenshots login,metas-ahorro,reportes-->
+        <div class="app-showcase">
+            <div class="section-title">
+                <h3>Interfaz diseñada para estudiantes</h3>
+                <p>Simple, intuitiva y poderosa - así es Estudiantes SinDi</p>
+            </div>
+            
+            <div class="showcase-grid">
+                <div class="showcase-item">
+                    <div class="phone-mockup">
+                        <div class="phone-frame">
+                            <img src="login.jpg" alt="Login en móvil" class="screen-image">
+                        </div>
+                    </div>
+                    <div class="showcase-info">
+                        <h4>Acceso Rápido y Seguro</h4>
+                        <p>Inicia sesión en segundos con tu cuenta universitaria o correo electrónico.</p>
+                    </div>
+                </div>
+                
+                <div class="showcase-item">
+                    <div class="phone-mockup">
+                        <div class="phone-frame">
+                            <img src="metas-ahorro.jpg" alt="Dashboard móvil" class="screen-image">
+                        </div>
+                    </div>
+                    <div class="showcase-info">
+                        <h4>Vista General al Instante</h4>
+                        <p>Consulta tu saldo, gastos y ahorros con un solo vistazo.</p>
+                    </div>
+                </div>
+                
+                <div class="showcase-item">
+                    <div class="phone-mockup">
+                        <div class="phone-frame">
+                            <img src="reportes.jpg" alt="Registro de gastos" class="screen-image">
+                        </div>
+                    </div>
+                    <div class="showcase-info">
+                        <h4>Registro en 3 Toques</h4>
+                        <p>Agrega gastos e ingresos en menos de 10 segundos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="video-demo" class="video-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Mira Qué Es Estudiantes SinDi </h2>
+            <p>Descubre en menos de un minuto cómo transformaremos tu relación con el dinero</p>
+        </div>
+        
+        <div class="video-container">
+            <!-- REEMPLAZA con ID VIDEO DE YOUTUBE -->
+            <div class="video-wrapper">
+                <iframe 
+                    id="youtube-video"
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/zf9DEIJ78F8" 
+                    title="Demo de Estudiantes SinDi" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            
+            <div class="video-placeholder" id="video-placeholder">
+                <div class="placeholder-content">
+                    <i class="fas fa-play-circle play-btn" id="play-button"></i>
+                    <h3>Mira Qué Es Estudiantes Sindi</h3>
+                    <p>Haz clic para ver que es Estudiantes SinDi</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-actions">
+            <a href="#contacto" class="btn btn-primary">
+                <i class="fas fa-rocket"></i> Probar ahora
+            </a>
+            <button class="btn btn-outline" id="share-video">
+                <i class="fas fa-share"></i> Compartir
+            </button>
+        </div>
+    </div>
+</section>
+    <section id="funcionamiento" class="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>Así de fácil es empezar</h2>
+                <p>En menos de 5 minutos tendrás el control total de tus finanzas estudiantiles.</p>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Regístrate gratis</h3>
+                    <p>Crea tu cuenta en menos de un minuto con tu correo institucional.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Configura tu perfil</h3>
+                    <p>Establece tus categorías de gasto y metas de ahorro personalizadas.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Comienza a ahorrar</h3>
+                    <p>Recibe insights automáticos y consejos para optimizar tu dinero.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonios" class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Lo que dicen los estudiantes</h2>
+                <p>Estudiantes reales que nos dicen de los problemas que tienen con sus cuentas.</p>
+            </div>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "Vivo con el estrés de no saber en qué se me iba el dinero.Espero que con Estudiantes SinDi no solo controlo mis gastos, ¡podré ahorrar para unos viajes que quiero hacer!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div class="author-info">
+                            <h4>Ana Rodríguez</h4>
+                            <p>Estudiante de Medicina, BUAP</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "Vivo con 3 roomies y es un caoz dividir todos los gastos. Ahora espero que con un clic sepamos exactamente quién debe pagar que y cuando. ¡Estp nos salvara la convivencia y la amistad!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">C</div>
+                        <div class="author-info">
+                            <h4>Carlos Azcatl</h4>
+                            <p>Estudiante de Ingeniería, BUAP</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "Las lecciones de educación financiera son importantes. En los meses que llevo viviendo como foránea gasto todo mi dinero en tener un fondo de emergencia. ¡Increíble!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">M</div>
+                        <div class="author-info">
+                            <h4>María González</h4>
+                            <p>Estudiante de Diseño, BUAP</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Preguntas frecuentes</h2>
+                <p>Respuestas a las dudas más comunes sobre Estudiantes SinDi.</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>¿Es realmente gratis?</h3>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sí, la versión básica de Estudiantes SinDi es completamente gratuita e incluye todas las funciones esenciales para gestionar tus finanzas. Ofrecemos una versión premium con funciones avanzadas, pero la versión gratuita es más que suficiente para la mayoría de estudiantes.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>¿Mis datos están seguros?</h3>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutamente. Utilizamos encriptación de grado bancario para proteger tu información. Nunca compartimos tus datos personales con terceros y cumplimos con todas las regulaciones de protección de datos.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>¿Puedo usar la app sin conexión a internet?</h3>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sí, puedes registrar tus gastos e ingresos sin conexión. La aplicación sincronizará automáticamente todos los datos cuando recuperes la conexión a internet.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>¿Qué pasa cuando me gradúe?</h3>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>¡Puedes seguir usando Estudiantes SinDi! La aplicación se adapta a tus nuevas necesidades financieras post-universitarias. Muchos de nuestros usuarios graduados continúan utilizando la plataforma para gestionar sus finanzas personales.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <div class="container">
+            <div class="cta-section">
+                <h2>¿Listo para mejorar tu salud financiera?</h2>
+                <p>Únete a miles de estudiantes que ya tienen el control de su dinero. Regístrate hoy y recibe una guía gratuita de "Finanzas para Universitarios".</p>
+                <a href="#" class="btn btn-primary btn-large">Crear mi cuenta gratis</a>
+            </div>
+            
+            <div class="section-title">
+                <h2>¿Tienes alguna pregunta?</h2>
+                <p>Contáctanos directamente y nuestro equipo resolvera tus dudas.</p>
+            </div>
+            
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Nombre completo</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="university">Universidad</label>
+                        <input type="text" id="university" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" class="form-control" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand">
+                       <div class="logo-box with-bg">
+
+                         <img src="Logo.png" alt="Logo Estudiantes SinDi" class="logo-img">
+                              </div>
+                        Estudiantes SinDi
+                    </div>
+                    <p>La aplicación financiera diseñada específicamente para las necesidades y realidades de los estudiantes universitarios.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Enlaces rápidos</h3>
+                    <ul>
+                        <li><a href="#beneficios">Beneficios</a></li>
+                        <li><a href="#funcionamiento">Cómo funciona</a></li>
+                        <li><a href="#testimonios">Testimonios</a></li>
+                        <li><a href="#faq">Preguntas frecuentes</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Términos de servicio</a></li>
+                        <li><a href="#">Política de privacidad</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Aviso legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Estudiantes SinDi. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // FAQ accordion functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentNode;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically send the form data to your server
+            alert('¡Gracias por tu mensaje! Te contactaremos pronto.');
+            this.reset();
+        });
+
+        // Simple animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.feature-card, .testimonial-card, .step').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+
+        // Funcionalidad para el video de YouTube
+document.addEventListener('DOMContentLoaded', function() {
+    const videoPlaceholder = document.getElementById('video-placeholder');
+    const videoWrapper = document.querySelector('.video-wrapper');
+    const playButton = document.getElementById('play-button');
+    const youtubeIframe = document.getElementById('youtube-video');
+    const shareButton = document.getElementById('share-video');
+    
+    // Función para cargar y reproducir el video
+    function loadAndPlayVideo() {
+        // Obtener el src actual (sin parámetros de autoplay)
+        let videoSrc = youtubeIframe.src;
+        
+        // Asegurarse de que el video se reproduzca automáticamente
+        if (videoSrc.includes('?')) {
+            videoSrc += '&autoplay=1';
+        } else {
+            videoSrc += '?autoplay=1';
+        }
+        
+        // Actualizar el src con autoplay
+        youtubeIframe.src = videoSrc;
+        
+        // Mostrar el iframe y ocultar el placeholder
+        videoWrapper.classList.add('active');
+        videoPlaceholder.classList.add('hidden');
     }
-    // Cerrar modal con ESC
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
-  </script>
+    
+    // Event listeners
+    if (videoPlaceholder) {
+        videoPlaceholder.addEventListener('click', loadAndPlayVideo);
+    }
+    
+    if (playButton) {
+        playButton.addEventListener('click', loadAndPlayVideo);
+    }
+    
+    // Compartir video
+    if (shareButton) {
+        shareButton.addEventListener('click', function() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Estudiantes SinDi - Demo',
+                    text: 'Mira cómo Estudiantes SinDi puede ayudarte a controlar tus finanzas',
+                    url: window.location.href + '#video-demo'
+                });
+            } else {
+                // Fallback para navegadores que no soportan Web Share API
+                const videoUrl = youtubeIframe.src.replace('&autoplay=1', '');
+                navigator.clipboard.writeText(videoUrl).then(() => {
+                    alert('¡Enlace copiado al portapapeles! Compártelo con tus amigos.');
+                });
+            }
+        });
+    }
+    
+    // Cargar video cuando sea visible en el viewport
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !videoWrapper.classList.contains('active')) {
+                // Precargar el video cuando sea visible
+                // Esto mejora la experiencia de usuario
+            }
+        });
+    });
+    
+    if (videoContainer) {
+        observer.observe(videoContainer);
+    }
+});
+    </script>
 </body>
-
 </html>
-
